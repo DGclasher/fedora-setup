@@ -1,19 +1,19 @@
 #!/bin/bash
 
-# Updating System
 sudo dnf update -y
 
-# Making .config and Moving dotfiles and Background to .config
+# Copying dots
 mkdir ~/.config
 chown $(whoami): ~/.config
-mv ./dotconfig/* ~/.config
-mv ./bg.jpg ~/.config
+cp -r ./dotconfig/* ~/.config
+cp -r ./bg.jpg ~/.config
+cp .Xresources .Xnord .xinitrc ~/
 
-# Installing Essential Programs 
+# Essential packages 
 sudo dnf install -y sddm bspwm sxhkd kitty rofi polybar picom thunar nitrogen lxpolkit
-# Installing Other less important Programs
-sudo dnf install -y mangohud gimp vim lxappearance
-# Installing Custom ocs-url package
+sudo dnf install -y vim lxappearance
+
+# ocs-url installation
 sudo dnf install -y ./rpm-packages/ocs-url-3.1.0-1.fc20.x86_64.rpm
 
 # Installing fonts
@@ -22,11 +22,12 @@ wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.z
 unzip FiraCode.zip -d /usr/share/fonts
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip
 unzip Meslo.zip -d /usr/share/fonts
+
 # Reloading Font
 fc-cache -vf
-# Removing zip Files
+
+# Cleanup
 rm ./FiraCode.zip ./Meslo.zip
 
-# Enabling Services and Graphical User Interface
 sudo systemctl enable sddm
 sudo systemctl set-default graphical.target
